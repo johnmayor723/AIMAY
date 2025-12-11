@@ -8,7 +8,13 @@ import attendeeRoutes from "./routes/attendeeRoutes.js";
 const app = express();
 
 // DB
-mongoose.connect("mongodb://127.0.0.1:27017/wedding-app");
+const dbUri = "mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority"
+mongoose.connect(dbUri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB connected"))
+.catch((err) => console.log("MongoDB connection error:", err) );
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
