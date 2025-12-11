@@ -1,0 +1,16 @@
+<%- include("layout") %>
+
+<div class="hero">
+  <h1>Verify Your Entry Code</h1>
+
+  <% if (message) { %>
+    <div class="flash"><%= message %></div>
+  <% } %>
+
+  <form action="/verify" method="POST">
+    <input type="text" name="code" maxlength="4" placeholder="Enter 4-digit Code" required />
+    <button type="submit">Verify</button>
+  </form>
+
+  <a href="/">Back Home</a>
+</div>
