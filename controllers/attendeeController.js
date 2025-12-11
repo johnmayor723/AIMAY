@@ -15,7 +15,7 @@ export const register = async (req, res) => {
     req.flash("message", "Sorry, we are fully booked (Maximum of 60 attendees reached).");
     return res.redirect("/");
   }
-
+//bb
   // Generate next serial number
   const serial = (count + 1).toString().padStart(4, "0");
 
