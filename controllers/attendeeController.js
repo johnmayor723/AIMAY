@@ -11,7 +11,7 @@ exports.register = async (req, res) => {
   // Count existing attendees
   const count = await Attendee.countDocuments({ location });
 
-  if (count >= 60) {
+  if (count >= 200) {
     req.flash("message", "Sorry, Akera is fully booked (Maximum of 60 attendees reached).");
     return res.redirect("/");
   }
