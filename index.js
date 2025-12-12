@@ -1,20 +1,22 @@
-import express from "express";
-import mongoose from "mongoose";
-import bodyParser from "body-parser";
-import session from "express-session";
-import flash from "connect-flash";
-import attendeeRoutes from "./routes/attendeeRoutes.js";
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+const flash = require("connect-flash");
+const attendeeRoutes = require("./routes/attendeeRoutes.js");
 
 const app = express();
 
 // DB
-const dbUri = "mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority"
-mongoose.connect(dbUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("MongoDB connected"))
-.catch((err) => console.log("MongoDB connection error:", err) );
+const dbUri = "mongodb+srv://admin:majoje1582@cluster0.cqudxbr.mongodb.net/?retryWrites=true&w=majority";
+
+mongoose
+  .connect(dbUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log("MongoDB connection error:", err));
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));

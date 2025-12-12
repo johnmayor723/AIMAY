@@ -1,21 +1,21 @@
-import Attendee from "../models/Attendee.js";
+const Attendee = require("../models/Attendee.js");
 
-export const homePage = async (req, res) => {
+exports.homePage = async (req, res) => {
   res.render("index", { message: req.flash("message") });
 };
 
-export const register = async (req, res) => {
+exports.register = async (req, res) => {
   const { name, address, phone } = req.body;
   const location = "Akera";
 
   // Count existing attendees
   const count = await Attendee.countDocuments({ location });
 
-  if (count >= 200) {
-    req.flash("message", "Sorry, we are fully booked (Maximum of 60 attendees reached).");
+  if (count >= 60) {
+    req.flash("message", "Sorry, Akera is fully booked (Maximum of 60 attendees reached).");
     return res.redirect("/");
   }
-//bb
+
   // Generate next serial number
   const serial = (count + 1).toString().padStart(4, "0");
 
@@ -30,7 +30,6 @@ export const register = async (req, res) => {
 
   // Venue details
   const venueAddress = "3 CMD Road, Ikosi, Lagos";
-  const mapLink = encodeURIComponent("https://www.google.com/maps?q=3+CMD+Road+Ikosi+Lagos");
 
   // Build WhatsApp message
   const whatsappMessage = encodeURIComponent(
@@ -60,12 +59,29 @@ We look forward to celebrating with you!`
   return res.redirect(whatsappUrl);
 };
 
-
-export const verifyPage = (req, res) => {
+exports.verifyPage = (req, res) => {
   res.render("verify", { message: req.flash("message") });
 };
 
-export const verifyCode = async (req, res) => {
+exports.getAllAttendees = async (req, res) => {
+  try {
+    const attendees = await Attendee.find().sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: attendees.length,
+      data: attendees,
+    });
+  } catch (error) {
+    console.error("Error fetching attendees:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error fetching attendees",
+    });
+  }
+};
+
+exports.verifyCode = async (req, res) => {
   const { code } = req.body;
 
   const attendee = await Attendee.findOne({ code });
