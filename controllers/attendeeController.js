@@ -11,7 +11,7 @@ export const register = async (req, res) => {
   // Count existing attendees
   const count = await Attendee.countDocuments({ location });
 
-  if (count >= 100) {
+  if (count >= 200) {
     req.flash("message", "Sorry, we are fully booked (Maximum of 60 attendees reached).");
     return res.redirect("/");
   }
