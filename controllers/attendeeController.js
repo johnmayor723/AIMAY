@@ -94,3 +94,13 @@ exports.verifyCode = async (req, res) => {
   req.flash("message", `Code valid! Welcome ${attendee.name}`);
   res.redirect("/verify");
 };
+exports.attendeesPage = async (req, res) => {
+  try {
+    const attendees = await Attendee.find().sort({ createdAt: -1 });
+   res.json(attendees);
+  } catch (error) {
+    console.error("Error rendering attendees page:", error);
+    req.flash("message", "Server error fetching attendees");
+    res.redirect("/");
+  }
+};
